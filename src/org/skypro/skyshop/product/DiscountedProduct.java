@@ -2,13 +2,18 @@ package org.skypro.skyshop.product;
 
 import org.skypro.skyshop.articles.Searchable;
 
-public class DiscountedProduct extends Product
-{
+public class DiscountedProduct extends Product {
     private int basePrice;
     private int discount;
 
     public DiscountedProduct(String nameProduct, int basePrice, int discount) {
         super(nameProduct);
+        if (basePrice <= 0) {
+            throw new IllegalArgumentException("Цена продукта должна быть больше 0!!!");
+        }
+        if (discount < 0 || discount > 100) {
+            throw new IllegalArgumentException("Процент скидки должен быть в диапазоне от 0 до 100 включительно");
+        }
         this.basePrice = basePrice;
         this.discount = discount;
     }

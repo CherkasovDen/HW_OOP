@@ -3,6 +3,7 @@ package org.skypro.skyshop;
 import java.util.Arrays;
 
 import org.skypro.skyshop.articles.Article;
+import org.skypro.skyshop.articles.BestResultNotFound;
 import org.skypro.skyshop.articles.SearchEngine;
 import org.skypro.skyshop.articles.Searchable;
 import org.skypro.skyshop.basket.ProductBasket;
@@ -76,7 +77,44 @@ public class App {
 
 
         System.out.println(Arrays.toString(searchEngine.search("Мясо")));
-        System.out.println(Arrays.toString(searchEngine.search( "телефон")));
-        System.out.println(Arrays.toString(searchEngine.search( "перфоратор")));
+        System.out.println(Arrays.toString(searchEngine.search("телефон")));
+        System.out.println(Arrays.toString(searchEngine.search("перфоратор")));
+
+        System.out.println(" ");
+        System.out.println("Исключения");
+        //Product plum = new SimpleProduct("Слива", -82);
+        //Product tea = new DiscountedProduct("Чай", 90, -30);
+
+        try {
+            Product plum = new SimpleProduct("   ", 82);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            Product oil = new SimpleProduct("Масло", -82);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            Product lemon = new DiscountedProduct("Лемон", -32, 150);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            Product Ice = new DiscountedProduct("Лед", 82, 150);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+
+
+        System.out.println(" ");
+        System.out.println("BestResultNotFound");
+        try {
+            Searchable result = searchEngine.findBestMatch(" Барабан");
+            System.out.println("Найдено: " + result.getSearchTerm());
+        } catch (BestResultNotFound e) {
+            System.err.println("Ошибка поиска: " + e.getMessage());
+        }
+
     }
 }
