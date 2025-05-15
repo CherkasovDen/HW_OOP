@@ -82,8 +82,6 @@ public class App {
 
         System.out.println(" ");
         System.out.println("Исключения");
-        //Product plum = new SimpleProduct("Слива", -82);
-        //Product tea = new DiscountedProduct("Чай", 90, -30);
 
         try {
             Product plum = new SimpleProduct("   ", 82);
