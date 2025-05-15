@@ -1,6 +1,7 @@
 package org.skypro.skyshop;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.skypro.skyshop.articles.Article;
 import org.skypro.skyshop.articles.BestResultNotFound;
@@ -29,10 +30,6 @@ public class App {
         bas1.addProduct(bananas);
         bas1.addProduct(potato);
 
-        System.out.println("Добавление 6го продукта в корзину");
-        bas1.addProduct(meat);
-        System.out.println(" ");
-
 
         System.out.println("Общая стоимость корзины: " + bas1.getTotalPrice());
         System.out.println(" ");
@@ -56,7 +53,13 @@ public class App {
         System.out.println("Общая стоимость корзины: " + bas1.getTotalPrice());
         System.out.println("В корзине есть 'Яблоко': " + bas1.checkProduct("Яблоко"));
 
-        SearchEngine searchEngine = new SearchEngine(12);
+
+
+
+        System.out.println("\nСоздание объекта SearchEngine");
+
+        SearchEngine searchEngine = new SearchEngine();
+
         searchEngine.add(apple);
         searchEngine.add(milk);
         searchEngine.add(bread);
@@ -73,20 +76,15 @@ public class App {
         searchEngine.add(article2);
         searchEngine.add(article3);
 
-        System.out.println(" ");
+        System.out.println(searchEngine.search("Мясо"));
 
 
-        System.out.println(Arrays.toString(searchEngine.search("Мясо")));
-        System.out.println(Arrays.toString(searchEngine.search("телефон")));
-        System.out.println(Arrays.toString(searchEngine.search("перфоратор")));
-
-        System.out.println(" ");
-        System.out.println("Исключения");
+        System.out.println("\nИсключения");
 
         try {
             Product plum = new SimpleProduct("   ", 82);
         } catch (IllegalArgumentException e) {
-            System.err.println("Ошибка: " + e.getMessage());
+            System.out.println("Ошибка: " + e.getMessage());
         }
         try {
             Product oil = new SimpleProduct("Масло", -82);
@@ -114,5 +112,46 @@ public class App {
             System.err.println("Ошибка поиска: " + e.getMessage());
         }
 
+
+        System.out.println(" ");
+        System.out.println("Коллеции");
+
+
+        ProductBasket bas2 = new ProductBasket();
+        bas2.addProduct(apple);
+        bas2.addProduct(milk);
+        bas2.addProduct(bread);
+        bas2.addProduct(bananas);
+        bas2.addProduct(potato);
+
+        System.out.println("Содержимое корзины №2 до удаления");
+        bas2.printBasket();
+
+        List<Product> removed = bas2.removeProductsByName("Яблоко");
+        System.out.println("\nУдаленные продукты:");
+        if (removed.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            for (Product p : removed) {
+                System.out.println(p);
+            }
+        }
+        System.out.println("\nСодержимое корзины №2 после удаления");
+        bas2.printBasket();
+
+        List<Product> removedNonExist = bas2.removeProductsByName("Чай");
+        System.out.println("\nУдаленные продукты:");
+        if (removedNonExist.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            for (Product p : removedNonExist) {
+                System.out.println(p);
+            }
+        }
+        System.out.println("\nСодержимое корзины №2 после удаления не существующего продукта");
+        bas2.printBasket();
+
+
     }
+
 }
