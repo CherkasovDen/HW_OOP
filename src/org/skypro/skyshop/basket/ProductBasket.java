@@ -2,18 +2,16 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class ProductBasket {
-    private Product[] productsBasket = new Product[5];
+    private List<Product> productsBasket = new ArrayList<>();
 
 
     public void addProduct(Product product) {
-        for (int i = 0; i < productsBasket.length; i++) {
-            if (productsBasket[i] == null) {
-                productsBasket[i] = product;
-                return;
-            }
-        }
-        System.out.println("Невозможно добавить продукт.");
+        productsBasket.add(product);
     }
 
     public int getTotalPrice() {
@@ -56,10 +54,21 @@ public class ProductBasket {
     }
 
     public void clearBasket() {
-        for (int i = 0; i < productsBasket.length; i++) {
-            productsBasket[i] = null;
-        }
+        productsBasket.clear();
     }
 
+    public List<Product> removeProductsByName(String name) {
+        List<Product> removedProducts = new ArrayList<>();
+        Iterator<Product> iterator = productsBasket.iterator();
 
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getNameProduct().equals(name)) {
+                removedProducts.add(product);
+                iterator.remove();
+            }
+        }
+
+        return removedProducts;
+    }
 }
