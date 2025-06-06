@@ -139,6 +139,7 @@ public class App {
         System.out.println("\nСодержимое корзины №2 после удаления");
         bas2.printBasket();
 
+        System.out.println("\nУдаления не существующего продукта");
         List<Product> removedNonExist = bas2.removeProductsByName("Чай");
         System.out.println("\nУдаленные продукты:");
         if (removedNonExist.isEmpty()) {
@@ -148,7 +149,7 @@ public class App {
                 System.out.println(p);
             }
         }
-        System.out.println("\nСодержимое корзины №2 после удаления не существующего продукта");
+        System.out.println("Содержимое корзины №2 после удаления не существующего продукта");
         bas2.printBasket();
 
 
