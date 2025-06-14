@@ -1,29 +1,39 @@
 package org.skypro.skyshop.articles;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class SearchEngine {
-    private List<Searchable> searchableItems;
+    private Set<Searchable> searchableItems;
 
     public SearchEngine() {
-        searchableItems = new ArrayList<>();
+        searchableItems = new HashSet<>();
     }
 
     public void add(Searchable item) {
         searchableItems.add(item);
     }
 
-    public Map<String, Searchable> search(String term) {
-        Map<String, Searchable> resultsMap = new TreeMap<>();
+    public Set<Searchable> search(String term) {
+
+
+        Comparator<Searchable> comparator = new Comparator<>() {
+            @Override
+            public int compare(Searchable s1, Searchable s2) {
+                int lengthComparison = Integer.compare(s2.getName().length(), s1.getName().length());
+                if (lengthComparison != 0) {
+                    return lengthComparison;
+                }
+                return s1.getName().compareTo(s2.getName());
+            }
+        };
+
+        Set<Searchable> resultsSet = new TreeSet<>(comparator);
         for (Searchable item : searchableItems) {
             if (item != null && item.getSearchTerm().contains(term)) {
-                resultsMap.put(item.getName(), item);
+                resultsSet.add(item);
             }
         }
-        return resultsMap;
+        return resultsSet;
     }
 
     public Searchable findBestMatch(String search) throws BestResultNotFound {
@@ -56,4 +66,6 @@ public class SearchEngine {
     }
 
 }
+
+
 
