@@ -15,19 +15,7 @@ public class SearchEngine {
 
     public Set<Searchable> search(String term) {
 
-
-        Comparator<Searchable> comparator = new Comparator<>() {
-            @Override
-            public int compare(Searchable s1, Searchable s2) {
-                int lengthComparison = Integer.compare(s2.getName().length(), s1.getName().length());
-                if (lengthComparison != 0) {
-                    return lengthComparison;
-                }
-                return s1.getName().compareTo(s2.getName());
-            }
-        };
-
-        Set<Searchable> resultsSet = new TreeSet<>(comparator);
+        Set<Searchable> resultsSet = new TreeSet<>(new SearchableComparator());
         for (Searchable item : searchableItems) {
             if (item != null && item.getSearchTerm().contains(term)) {
                 resultsSet.add(item);
@@ -35,6 +23,20 @@ public class SearchEngine {
         }
         return resultsSet;
     }
+
+    public static class SearchableComparator implements Comparator<Searchable> {
+        @Override
+        public int compare(Searchable s1, Searchable s2) {
+            // First compare by name length in reverse order
+            int lengthCompare = Integer.compare(s2.getName().length(), s1.getName().length());
+            if (lengthCompare != 0) {
+                return lengthCompare;
+            }
+            // If lengths are equal, compare by natural order
+            return s1.getName().compareTo(s2.getName());
+        }
+    }
+
 
     public Searchable findBestMatch(String search) throws BestResultNotFound {
         Searchable bestMatch = null;
