@@ -27,12 +27,10 @@ public class SearchEngine {
     public static class SearchableComparator implements Comparator<Searchable> {
         @Override
         public int compare(Searchable s1, Searchable s2) {
-            // First compare by name length in reverse order
             int lengthCompare = Integer.compare(s2.getName().length(), s1.getName().length());
             if (lengthCompare != 0) {
                 return lengthCompare;
             }
-            // If lengths are equal, compare by natural order
             return s1.getName().compareTo(s2.getName());
         }
     }
