@@ -16,6 +16,8 @@ public class SearchEngine {
     public Set<Searchable> search(String term) {
 
         Set<Searchable> resultsSet = new TreeSet<>(new SearchableComparator());
+
+
         for (Searchable item : searchableItems) {
             if (item != null && item.getSearchTerm().contains(term)) {
                 resultsSet.add(item);
@@ -24,7 +26,7 @@ public class SearchEngine {
         return resultsSet;
     }
 
-    public static class SearchableComparator implements Comparator<Searchable> {
+    public class SearchableComparator implements Comparator<Searchable> {// убрал static
         @Override
         public int compare(Searchable s1, Searchable s2) {
             int lengthCompare = Integer.compare(s2.getName().length(), s1.getName().length());
