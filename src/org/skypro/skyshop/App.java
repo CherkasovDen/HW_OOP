@@ -2,6 +2,7 @@ package org.skypro.skyshop;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.skypro.skyshop.articles.Article;
 import org.skypro.skyshop.articles.BestResultNotFound;
@@ -15,7 +16,13 @@ import org.skypro.skyshop.product.SimpleProduct;
 
 public class App {
     public static void main(String[] args) {
-        Product apple = new SimpleProduct("Яблоко", 150);
+        Product apple = new SimpleProduct("Яблоко Гала", 150);
+        Product apple1 = new SimpleProduct("Яблоко Голден", 250);
+        Product apple2 = new SimpleProduct("Яблоко Спартан", 350);
+        Product apple3 = new SimpleProduct("Яблоко Фуджи", 450);
+        Product apple4 = new SimpleProduct("Яблоко Глостер", 550);
+        Product apple5 = new SimpleProduct("Яблоко Ренет", 650);
+
         Product milk = new SimpleProduct("Молоко", 82);
         Product bread = new DiscountedProduct("Хлеб", 70, 30);
         Product bananas = new SimpleProduct("Бананы", 150);
@@ -54,8 +61,6 @@ public class App {
         System.out.println("В корзине есть 'Яблоко': " + bas1.checkProduct("Яблоко"));
 
 
-
-
         System.out.println("\nСоздание объекта SearchEngine");
 
         SearchEngine searchEngine = new SearchEngine();
@@ -66,18 +71,30 @@ public class App {
         searchEngine.add(bananas);
         searchEngine.add(potato);
         searchEngine.add(meat);
+        searchEngine.add(bananas);
+
+        searchEngine.add(apple1);
+        searchEngine.add(apple2);
+        searchEngine.add(apple3);
+        searchEngine.add(apple4);
+        searchEngine.add(apple5);
 
 
-        Article article1 = new Article("телефон", "инструкция к телефону");
+        Article article1 = new Article("телефон", "инструкция к телефону ");
         Article article2 = new Article("нивелир", "руководство пользователя");
         Article article3 = new Article("перфоратор", "руководство по эксплуатации");
+
+        Article article11 = new Article("Яблоко1", "приготовление джема");
+        Article article12 = new Article("Яблоко123", "приготовление варенья");
+
 
         searchEngine.add(article1);
         searchEngine.add(article2);
         searchEngine.add(article3);
+        searchEngine.add(article11);
+        searchEngine.add(article12);
 
         System.out.println(searchEngine.search("Мясо"));
-
 
         System.out.println("\nИсключения");
 
@@ -152,7 +169,13 @@ public class App {
         System.out.println("Содержимое корзины №2 после удаления не существующего продукта");
         bas2.printBasket();
 
+        System.out.println("\nРезультаты поиска сортируются в соответствии с этим компаратором");
+        Set<Searchable> results = searchEngine.search("Яблоко");
+
+        System.out.println("Результаты поиска:");
+        for (Searchable item : results) {
+            System.out.println(item);
+        }
 
     }
-
 }
