@@ -14,38 +14,43 @@ public class ProductBasket {
     }
 
     public int getTotalPrice() {
-        int totalPrice = 0;
-        for (List<Product> productList : productsBasket.values()) {
-            for (Product product : productList) {
-                if (product != null) {
-                    totalPrice += product.getPrice();
-                }
-            }
-        }
-        return totalPrice;
+        return productsBasket.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Objects::nonNull)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
+
     public void printBasket() {
-        boolean isEmpty = true;
-        int specialCount = 0;
-        for (List<Product> productList : productsBasket.values()) {
-            for (Product product : productList) {
-                if (product != null) {
-                    System.out.println(product.toString());
-                    if (product.isSpecial()) {
-                        specialCount++;
-                    }
-                    isEmpty = false;
-                }
-            }
-        }
+        boolean isEmpty = productsBasket.values().stream()
+                .flatMap(Collection::stream)
+                .findAny()
+                .isEmpty();
+
         if (isEmpty) {
             System.out.println("В корзине пусто.");
             return;
         }
+        productsBasket.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product -> System.out.println(product.toString()));
+
+        int specialCount = getSpecialCount();
+
         System.out.println("Итого: " + getTotalPrice());
         System.out.println("Специальных товаров: " + specialCount);
+
     }
+
+    private int getSpecialCount() {
+        return (int) productsBasket.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Objects::nonNull)
+                .filter(Product::isSpecial)
+                .count();
+    }
+
 
     public boolean checkProduct(String nameProduct) {
         return productsBasket.containsKey(nameProduct);
@@ -62,7 +67,7 @@ public class ProductBasket {
             removedProducts.addAll(products);
             productsBasket.remove(name);
         }
-//return productsBasket.remove(name);
         return removedProducts;
     }
 }
+
